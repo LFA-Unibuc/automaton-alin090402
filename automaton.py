@@ -1,11 +1,13 @@
 class Automaton():
 
     def __init__(self, config_file):
-        self.config_file = config_file
         self.sigma = self.states = []
         self.transitions = []
         self.start = ''
         self.final = []
+        if config_file is None:
+            return
+        self.config_file = config_file
         self.Error = set()
         with open(config_file, 'r') as file:
             lines = file.readlines()
@@ -13,7 +15,7 @@ class Automaton():
         for line in lines:
             line = line.strip()
             if line[0] == '#':
-                continue;
+                continue
             sep = ".,:?!;"
             for semn in sep:
                 line = line.replace(semn, ' ')
@@ -40,8 +42,6 @@ class Automaton():
                 self.transitions.append(tuple(line))
         for error in self.Error:
             print(error)
-        if len(self.Error) == 0:
-            print("Automatul a fost citit cu succes")
 
     def validate(self):
         """Return a Boolean
